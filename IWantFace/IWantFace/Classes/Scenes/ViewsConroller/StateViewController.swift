@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import pop
 let ImgHeight:CGFloat = 160
 typealias ChangeAplha = (alpha:Float) -> ()
 class StateViewController: UIViewController,UIScrollViewDelegate {
@@ -52,8 +53,12 @@ class StateViewController: UIViewController,UIScrollViewDelegate {
     @IBOutlet weak var totalScoreLoop: SDLoopProgressView!
     @IBOutlet weak var shareScrollView: UIScrollView!
     @IBOutlet weak var pageControl: UIPageControl!
-    
     @IBOutlet weak var shareButton: UIButton!
+
+    let layerA = CAShapeLayer()
+    let layerT = CAShapeLayer()
+    let layerC = CAShapeLayer()
+    let layerD = CAShapeLayer()
   
 //    用来拼接的分享视图
     var shareTopImg = UIImage()
@@ -72,20 +77,125 @@ class StateViewController: UIViewController,UIScrollViewDelegate {
         ageSkinLoop.progress = 0.6
         shareScrollView.delegate = self
         dealWithShareLabelText()
-        circleOfCheek.alpha = 0
+        faceImgView.alpha = 0
         addAnimationForCircle()
+        addPopAnimation(circleOfT)
+        addPopAnimation(circleOfCheek)
+        addPopAnimation(circleOfChin)
+      
+//      脸颊
+        
+        let pointForCheekA = CGPointMake(-30, 80)
+        let pointForCheekB = CGPointMake(26,80)
+        let pointForCheekC = CGPointMake(54, 122)
+        let pointForCheekD = CGPointMake(200, 122)
+        
+//      T区
+        var pointForTA =  CGPointMake(faceImgView.frame.size.width / 10 * 9, 80)
+        var pointForTB =  CGPointMake(faceImgView.frame.size.width / 10 * 3.36, 80)
+        
+        
+//      下巴
+       var pointForChinA = CGPointMake(0,faceImgView.frame.size.height / 5 * 3.1)
+       var pointForChinB = CGPointMake(faceImgView.frame.size.width / 2.83, faceImgView.frame.size.height / 5 * 3.1)
+        
+        if Width == 375 {
+            pointForTA.x = pointForTA.x * 375.0 / 414.0
+            pointForTA.y = pointForTA.y * 375.0 / 414.0
+            pointForTB.x = pointForTB.x * 375.0 / 414.0
+            pointForTB.y = pointForTB.y * 375.0 / 414.0
+            pointForChinA.y = pointForChinA.y * 375.0 / 414.0
+            pointForChinB.x = pointForChinB.x * 375.0 / 414.0
+            pointForChinB.y = pointForChinB.y * 375.0 / 414.0
+
+        }
+        if Width == 320 {
+            pointForTA.x = pointForTA.x * 320.0 / 414.0
+            pointForTA.y = pointForTA.y * 320.0 / 414.0
+            pointForTB.x = pointForTB.x * 320.0 / 414.0
+            pointForTB.y = pointForTB.y * 320.0 / 414.0
+            pointForChinA.y = pointForChinA.y * 320.0 / 414.0
+            pointForChinB.x = pointForChinB.x * 320.0 / 414.0
+            pointForChinB.y = pointForChinB.y * 320.0 / 414.0
+       
+        }
+//        脸颊
+        pointMuved(faceImgView, startPoint: pointForCheekA, linePoints: [pointForCheekB,pointForCheekC], delay: 0, layer: layerC)
+        pointMuved(faceImgView, startPoint: pointForCheekA, linePoints: [pointForCheekB,pointForCheekD], delay: 0, layer: layerD)
+        pointMuved(faceImgView, startPoint: pointForTA, linePoints: [pointForTB], delay: 0, layer: layerT)
+        pointMuved(faceImgView, startPoint:pointForChinA, linePoints: [pointForChinB], delay: 0, layer: layerA)
+ 
         
     }
     func addAnimationForCircle() {
-        UIView.transitionWithView(circleOfCheek, duration: 2, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
-             self.circleOfCheek.alpha = 1
+        UIView.transitionWithView(circleOfCheek, duration: 1, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
+             self.faceImgView.alpha = 1
+            }) { (Bool) -> Void in
+                
+        }
+    }
+    
+    func drawLine(imgView:UIImageView,layer:CAShapeLayer,startPoint:CGPoint,linePoints:[CGPoint]) {
+        
+        //   添加点的位置
+        //        pointView.frame = CGRectMake(startPoint.x - 5, startPoint.y - 5, 10, 10)
+        //        self.imgView.addSubview(self.pointView)
+        //   画线
+        //        self.pointMuved(startPoint: startPoint,linePoints:linePoints,delay: 0,layer: layer)
+        self.pointMuved(imgView, startPoint: startPoint, linePoints: linePoints, delay: 0, layer: layer)
+        
+    }
+ 
+    func pointMuved(imageView:UIImageView,startPoint:CGPoint,linePoints:[CGPoint],delay:Double,layer:CAShapeLayer) {
+        
+        let raw = UIViewKeyframeAnimationOptions.CalculationModePaced.rawValue | UIViewAnimationOptions.CurveLinear.rawValue
+        let options = UIViewKeyframeAnimationOptions(rawValue: raw)
+        UIView.animateKeyframesWithDuration(5, delay: delay, options: options, animations: { () -> Void in
+            let path = UIBezierPath()
+            path.moveToPoint(startPoint)
+            print(startPoint)
+                        print(linePoints[0])
+            for i in 0..<linePoints.count{
+                path.addLineToPoint(linePoints[i])
+            }
+            layer.path = path.CGPath
+            layer.fillColor = UIColor.clearColor().CGColor
+            layer.strokeColor = UIColor.redColor().CGColor
+//                UIColor(red: 255.0, green: 255.0, blue: 255.0, alpha: 0.75).CGColor
+            self.animation1(layer)
+            imageView.layer.addSublayer(layer)
+            
+            
             }) { (Bool) -> Void in
                 
         }
         
-        
     }
     
+    private func animation1(layer:CAShapeLayer) {
+        let animation = CABasicAnimation(keyPath: "strokeEnd")
+        animation.fromValue = 0
+        animation.toValue = 1
+        animation.duration = 4
+        layer.addAnimation(animation, forKey: "")
+        
+    }
+ 
+    func addPopAnimation(view:UIView) {
+        
+        let opacityAnimation = POPBasicAnimation(propertyNamed:kPOPLayerOpacity)
+        opacityAnimation.fromValue = 0
+        opacityAnimation.toValue = 1
+        opacityAnimation.beginTime = CACurrentMediaTime() + 0.5
+        view.layer.pop_animationForKey("showOpacityAnimation")
+        let scaleAnimation  = POPSpringAnimation(propertyNamed: kPOPLayerScaleXY)
+        scaleAnimation.fromValue = NSValue(CGSize:CGSizeMake(0.1, 0.1))
+        scaleAnimation.toValue = NSValue(CGSize:CGSizeMake(1.0, 1.0))
+        scaleAnimation.springBounciness = 20.0
+        scaleAnimation.springSpeed = 20.0
+        view.layer.pop_addAnimation(scaleAnimation, forKey: "showScaleAnimation")
+    }
+
 // MARK: -   处理分享文字样式
     func dealWithShareLabelText() {
         //        分享文字

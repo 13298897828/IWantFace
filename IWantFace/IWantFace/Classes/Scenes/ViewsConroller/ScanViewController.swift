@@ -638,12 +638,8 @@ class ScanViewController: UIViewController {
         let raw = UIViewKeyframeAnimationOptions.CalculationModePaced.rawValue | UIViewAnimationOptions.CurveLinear.rawValue
         let options = UIViewKeyframeAnimationOptions(rawValue: raw)
         UIView.animateKeyframesWithDuration(5, delay: delay, options: options, animations: { () -> Void in
-//            let centera:CGPoint = startPoint
-            
             let path = UIBezierPath()
             path.moveToPoint(startPoint)
-            
-            
             for i in 0..<linePoints.count{
                 path.addLineToPoint(linePoints[i])
             }
