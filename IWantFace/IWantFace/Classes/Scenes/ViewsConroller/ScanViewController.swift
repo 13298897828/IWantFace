@@ -8,7 +8,7 @@
 //
 
 import UIKit
-
+import AFImageHelper
 
 class ScanViewController: UIViewController {
 //  数据模型
@@ -116,6 +116,7 @@ class ScanViewController: UIViewController {
         let auth = Auth.appSign(1000000, userId: nil)
         let sdk:TXQcloudFrSDK = TXQcloudFrSDK.init(name: Conf.instance().appId, authorization: auth)
 //     图片上的各种图
+        
  
         self.view.backgroundColor = UIColor.blackColor()
         cornerImage.frame = CGRectMake(20, 20, imgView.bounds.size.width - 40, imgView.bounds.size.width - 40)
@@ -153,14 +154,21 @@ class ScanViewController: UIViewController {
 
 //        百分比数字显示
         percentLabel.countFrom(percentLabel.currentValue(), endValue: 100, duration: 5)
-        
+        let width = 302.5 * UIScreen.mainScreen().scale
+        let height = 403.2 * UIScreen.mainScreen().scale
+        let imageForShow = UIImage(data:NSData(contentsOfURL: showImageUrl)!)
+        let image  = imageForShow?.resize(CGSize(width: (imageForShow?.size.width)! / 5, height: (imageForShow?.size.height)! / 5))
  
-//        let photoImg =  photoImage?.imageRotatedByDegrees(180, flip: true)
-        self.imgView.image = UIImage(data:NSData(contentsOfURL: showImageUrl)!)
-        self.imgView.contentMode = UIViewContentMode.ScaleToFill
-//        let image = photoImg
-        let image = self.imgView.image
-//        return
+        
+        
+        self.imgView.image = imageForShow?.cutImage(imageForShow!, rect: CGRectMake(0, (imageForShow?.size.height)! / 8, (imageForShow?.size.width)!, (imageForShow?.size.height)! / 8 * 6))
+//            imageForShow?.imageRotatedByDegrees(90, flip: false)
+ 
+        self.imgView.contentMode = UIViewContentMode.ScaleAspectFit
+//        imgView.clipsToBounds = true
+        
+        
+
         sdk.API_END_POINT = "http://api.youtu.qq.com/youtu"
         sdk.faceShape(image, successBlock: { (let responseObject) -> Void in
             
@@ -183,6 +191,7 @@ class ScanViewController: UIViewController {
             
         // MARK: - 眉毛点
         for i in 0...7 {
+        
             self.imgPoints("layerLeftBlowPoint\(i)", point: CGPointMake(self.leftEyeBlowPoints[i].x ,self.leftEyeBlowPoints[i].y))
             self.imgPoints("layerRightBlowPoint\(i)", point: self.rightEyeBlowPoints[i])
          
@@ -205,13 +214,17 @@ class ScanViewController: UIViewController {
         
         for i in 0...16 {
             
+ 
             self.imgPoints("mouthPoint\(i)", point: self.mouthPoints[i])
         }
         
         //             // MARK: -  轮廓
         for i in 0...20  {
-            
-            self.imgPoints("face\(i)", point:  self.faceProfilePoints[i])
+            print(self.faceProfilePoints[i].y)
+//             self.faceProfilePoints[i].y *=  8 /
+            print(self.faceProfilePoints[i].y)
+//            self.imgPoints("face\(i)", point:  self.faceProfilePoints[i])
+            self.imgPoints("face\(i)", point:  CGPointMake(self.faceProfilePoints[i].x, self.faceProfilePoints[i].y))
             //
         }
             
@@ -810,11 +823,12 @@ class ScanViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 }
-
 private extension UIImage {
     func imageRotatedByDegrees(degrees: CGFloat, flip: Bool) -> UIImage {
         let degreesToRadians: (CGFloat) -> CGFloat = {
-            return $0 / 180.0 * CGFloat(M_PI)
+            return $0 / 180.0 * CGFloat(M_PI) * 0.01
+//
+//
         }
         
         // calculate the size of the rotated view's containing box for our drawing space
@@ -828,7 +842,7 @@ private extension UIImage {
         let bitmap = UIGraphicsGetCurrentContext()
         
         // Move the origin to the middle of the image so we will rotate and scale around the center.
-        CGContextTranslateCTM(bitmap, rotatedSize.width / 2.0, rotatedSize.height / 2.0);
+        CGContextTranslateCTM(bitmap, rotatedSize.width, rotatedSize.height);
         
         //   // Rotate the image context
         CGContextRotateCTM(bitmap, degreesToRadians(degrees));
@@ -842,11 +856,55 @@ private extension UIImage {
             yFlip = CGFloat(1.0)
         }
         
-//        CGContextScaleCTM(bitmap, yFlip, -1.0)
-        CGContextDrawImage(bitmap, CGRectMake(-size.width / 2, -size.height / 2, size.width , size.height * 1.25), CGImage)
+        CGContextScaleCTM(bitmap, yFlip, -1.0)
+        
+        CGContextDrawImage(bitmap, CGRectMake(-size.width / 2, -size.height / 1.7, size.width , size.height), CGImage)
+//        CGContextDrawImage(bitmap, CGRectMake(-size.width / 2, -size.height / 2, size.width, size.height), CGImage)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         
         return newImage
+    }
+    
+    func areaAverage() -> UIColor {
+        var bitmap = [UInt8](count: 4, repeatedValue: 0)
+        
+        if #available(iOS 9.0, *) {
+            // Get average color.
+            let context = CIContext()
+            let inputImage = CIImage ?? CoreImage.CIImage(CGImage: CGImage!)
+            let extent = inputImage.extent
+            let inputExtent = CIVector(x: extent.origin.x, y: extent.origin.y, z: extent.size.width, w: extent.size.height)
+            let filter = CIFilter(name: "CIAreaAverage", withInputParameters: [kCIInputImageKey: inputImage, kCIInputExtentKey: inputExtent])!
+            let outputImage = filter.outputImage!
+            let outputExtent = outputImage.extent
+            assert(outputExtent.size.width == 1 && outputExtent.size.height == 1)
+            
+            // Render to bitmap.
+            context.render(outputImage, toBitmap: &bitmap, rowBytes: 4, bounds: CGRect(x: 0, y: 0, width: 1, height: 1), format: kCIFormatRGBA8, colorSpace: CGColorSpaceCreateDeviceRGB())
+        } else {
+            // Create 1x1 context that interpolates pixels when drawing to it.
+            let context = CGBitmapContextCreate(&bitmap, 1, 1, 8, 4, CGColorSpaceCreateDeviceRGB(), CGBitmapInfo.ByteOrderDefault.rawValue | CGImageAlphaInfo.PremultipliedLast.rawValue)!
+            let inputImage = CGImage ?? CIContext().createCGImage(CIImage!, fromRect: CIImage!.extent)
+            
+            // Render to bitmap.
+            CGContextDrawImage(context, CGRect(x: 0, y: 0, width: 1, height: 1), inputImage)
+        }
+        
+        // Compute result.
+        let result = UIColor(red: CGFloat(bitmap[0]) / 255.0, green: CGFloat(bitmap[1]) / 255.0, blue: CGFloat(bitmap[2]) / 255.0, alpha: CGFloat(bitmap[3]) / 255.0)
+        return result
+    }
+    
+ 
+    
+    func cutImage(image:UIImage,rect:CGRect) -> UIImage{
+        
+        let imageRef = CGImageCreateWithImageInRect(image.CGImage, rect)
+        let newImg = UIImage(CGImage: imageRef!)
+        return newImg
+    
+    }
 }
-}
+
+ 

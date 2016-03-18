@@ -370,7 +370,6 @@ class Visage: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         
         let takenImage = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Up)
         let rotatedImage = takenImage.imageRotatedByDegrees(90, flip: false)
-        
         let date = NSDate()
         let formatter = NSDateFormatter()
         formatter.dateFormat = "yyyyMMdd_HHmmss"
@@ -460,9 +459,9 @@ private extension UIImage {
         }
         
         CGContextScaleCTM(bitmap, yFlip, -1.0)
-//          CGContextDrawImage(bitmap, CGRectMake(-size.width / 2, -size.height / 2.55, size.width, size.height / 1.3), CGImage)
-        CGContextDrawImage(bitmap, CGRectMake(-size.width / 1.7, -size.height / 2, size.width * 1.25, size.height), CGImage)
-//          CGContextDrawImage(bitmap, CGRectMake(-size.width / 2, -size.height / 2, size.width , size.height), CGImage)
+ 
+//        CGContextDrawImage(bitmap, CGRectMake(-size.width / 1.7, -size.height / 2, size.width * 1.25, size.height), CGImage)
+          CGContextDrawImage(bitmap, CGRectMake(-size.width / 2, -size.height / 2, size.width, size.height), CGImage)
         let newImage = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         

@@ -4,6 +4,11 @@
 <dict>
 	<key>SchemeUserState</key>
 	<dict>
+		<key>AFImageHelper.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>Alamofire.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -27,12 +32,7 @@
 	</dict>
 	<key>SuppressBuildableAutocreation</key>
 	<dict>
-		<key>04831DE68B021B65700F01B97644DA2A</key>
-		<dict>
-			<key>primary</key>
-			<true/>
-		</dict>
-		<key>4A594CDB2FF06A91862A5FB1DFDA4476</key>
+		<key>33229BA8D666833D22A703732D21B87C</key>
 		<dict>
 			<key>primary</key>
 			<true/>
@@ -43,6 +43,16 @@
 			<true/>
 		</dict>
 		<key>7C0126D717EB28DC6DB2EEA2E20B5172</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>9BC325E0B73AD4A123E7D4737BCB0FD6</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>FEFF6A7F2B07F63B1F8CF7FC8A0869E4</key>
 		<dict>
 			<key>primary</key>
 			<true/>
