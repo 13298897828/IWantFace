@@ -14,7 +14,7 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = 'primary'
-               BlueprintIdentifier = '422D5E0D668DDF1AE25CA4CB'
+               BlueprintIdentifier = 'C9928531C815917D83ED65D3'
                BlueprintName = 'AFImageHelper'
                ReferencedContainer = 'container:Pods.xcodeproj'
                BuildableName = 'AFImageHelper.framework'>

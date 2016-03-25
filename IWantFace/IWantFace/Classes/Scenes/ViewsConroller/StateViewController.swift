@@ -8,7 +8,7 @@
 
 import UIKit
 import pop
-
+ 
 let ImgHeight:CGFloat = 160
 typealias ChangeAplha = (alpha:Float) -> ()
 class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewControllerDelegate,POPAnimationDelegate {
@@ -26,6 +26,7 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
     @IBOutlet weak var numOfPore: UILabel!
     //    光滑度
     @IBOutlet weak var eggImgView: UIImageView!
+    
     @IBOutlet weak var questionMarkImgView: UIImageView!
     
     @IBOutlet weak var smoothDegreeOfSkin: UILabel!
@@ -38,14 +39,14 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
     //    统计图
     @IBOutlet weak var statisticalImgView: UIImageView!
     @IBOutlet weak var firstPillar: UIView!
-    
     @IBOutlet weak var firstPillBg: UIView!
+    
     @IBOutlet weak var secondPillar: UIView!
-    
     @IBOutlet weak var secondPillBg: UIView!
-    @IBOutlet weak var thirdPillar: UIView!
     
+    @IBOutlet weak var thirdPillar: UIView!
     @IBOutlet weak var thirdPillBg: UIView!
+    
     @IBOutlet weak var firstPillImgView: UIImageView!
     @IBOutlet weak var secondPillImgView: UIImageView!
     @IBOutlet weak var thirdPillImgView: UIImageView!
@@ -99,48 +100,76 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        getValues()
+        setViews()
+        addAnimationForCircle()
+        addLine()
+    }
+    
+    // MARK: - 背景设置及代理
+    func setViews() {
         scrolView.contentInset = UIEdgeInsetsMake(ImgHeight, 0, 0, 0)
         backView.backgroundColor = backColor .colorWithAlphaComponent(0.3)
         backView = UIView(frame: CGRectMake(0, 0, UIScreen.mainScreen().bounds.size.width, 41))
         backColor = UIColor.blackColor()
-        ageSkinLoop.progress = 0.6
         shareScrollView.delegate = self
         dealWithShareLabelText()
         faceImgView.alpha = 0
-        addAnimationForCircle()
-        addLine()
-        //      圈延时出现
-        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: Selector("timerT"), userInfo: nil, repeats: false)
-        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: Selector("timerChin"), userInfo: nil, repeats: false)
         
-        addPopAnimation(circleOfCheek)
-        circleOfT.hidden = true
-        circleOfChin.hidden = true
-        
-        addPillSubView("20", label: firstPillLabel, superView: firstPillImgView)
-
- 
     }
-    func addAnimationForpill(pill:UIView,imgView:UIImageView,offset:CGFloat) {
-        UIView.transitionWithView(pill, duration: 2, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
-            var frame = pill.frame
-            frame.origin.y -= offset
-            frame.size.height += offset
-            pill.frame = frame
-            var imgFrame = imgView.frame
-            imgFrame.origin.y -= offset
-            imgView.frame = imgFrame
-            }) { (Bool) -> Void in
-                
+    // MARK: - 赋值
+    func getValues() {
+        let analyFace = DataHelper.SharedDataHelper.analyseModel
+        numOfBlacks.text = analyFace.blackhead_number
+        severity.text =  analyFace.blackhead_severity
+        numOfPore.text = analyFace.pore_severity
+        eggImgView.image = UIImage(named: analyFace.coarseness)
+        smoothDegreeOfSkin.text = analyFace.coarseness
+        let n =  NSNumberFormatter().numberFromString(analyFace.skin_age)
+        let age = CGFloat(n!)
+        ageSkinLoop.progress = age / 100
+        let temp = NSNumberFormatter().numberFromString(analyFace.total_score)
+        let score = CGFloat(temp!)
+        totalScoreLoop.progress = score / 100
+        switch analyFace.skin_color {
+        case "1":
+            circle1.image = UIImage(named: "bigCircle")
+            circle1.contentMode = UIViewContentMode.Bottom
+        case "2":
+            circle2.image = UIImage(named: "bigCircle")
+            circle2.contentMode = UIViewContentMode.Bottom
+        case "3":
+            circle3.image = UIImage(named: "bigCircle")
+            circle3.contentMode = UIViewContentMode.Bottom
+        case "4":
+            circle4.image = UIImage(named: "bigCircle")
+            circle4.contentMode = UIViewContentMode.Bottom
+        case "5":
+            circle5.image = UIImage(named: "bigCircle")
+            circle5.contentMode = UIViewContentMode.Bottom
+        case "6":
+            circle6.image = UIImage(named: "bigCircle")
+            circle6.contentMode = UIViewContentMode.Bottom
+        case "7":
+            circle7.image = UIImage(named: "bigCircle")
+            circle7.contentMode = UIViewContentMode.Bottom
+        default:
+            circle8.image = UIImage(named: "bigCircle")
+            circle8.contentMode = UIViewContentMode.Bottom
+            
+
+//
+            
+            
         }
-
-    
+        
     }
-    
     // MARK: - 添加label
     func addPillSubView(labelText:String,label:UILabel,superView:UIView) {
         
         label.text = "\(labelText)\("%")"
+        label.frame = CGRectMake(0, 0, superView.frame.size.width, superView.frame.size.height)
+        label.textAlignment = NSTextAlignment.Center
         label.font = UIFont.systemFontOfSize(13)
         superView.addSubview(label)
         label.textColor = UIColor.whiteColor()
@@ -209,19 +238,25 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
         
         
     }
-    // MARK: -  人脸图
+    // MARK: -  人脸图及三个圈
     private func addAnimationForCircle() {
         UIView.transitionWithView(circleOfCheek, duration: 1, options: UIViewAnimationOptions.CurveLinear, animations: { () -> Void in
             self.faceImgView.alpha = 1
             }) { (Bool) -> Void in
                 
         }
+        //      圈延时出现
+        NSTimer.scheduledTimerWithTimeInterval(0.5, target: self, selector: #selector(StateViewController.timerT), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(1, target: self, selector: #selector(StateViewController.timerChin), userInfo: nil, repeats: false)
+        
+        addPopAnimation(circleOfCheek)
+        circleOfT.hidden = true
+        circleOfChin.hidden = true
     }
     func timerChin() {
         
         circleOfChin.hidden = false
         addPopAnimation(circleOfChin)
-        print(pointForCheekA)
         pointMuved(faceImgView, startPoint:pointForChinA, linePoints: [pointForChinB], delay: 1, layer: layerA, red: 254, green: 220,blue:  98)
     }
     func timerT() {
@@ -282,7 +317,8 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
     private func dealWithShareLabelText() {
         //        分享文字
         var text = String()
-        text = "你的肌肤光滑度超过了全杭州71%的女生,综合得分排名靠前"
+       
+        text = "你的肌肤光滑度超过了全国81%的女生,哈哈,骗你的啦这你都信"
         let text3 = NSMutableAttributedString(string: text)
         //        改颜色
         let needle: Character = "%"
@@ -290,7 +326,7 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
             let pos = text.startIndex.distanceTo(idx)
             //            print("Found \(needle) at position \(pos)")
             text3.addAttribute(NSForegroundColorAttributeName, value: UIColor(red: 254 / 255.0, green: 220 / 255.0, blue: 98 / 255.0, alpha: 1), range: NSMakeRange(pos - 2, 3))
-            print(pos,idx)
+          
             let style = NSMutableParagraphStyle()
             style.lineSpacing = 10
             style.alignment = NSTextAlignment.Center
@@ -306,7 +342,7 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
      func scrollViewDidScroll(scrollView: UIScrollView) {
         
         let y:CGFloat = scrollView.contentOffset.y
-        print(y)
+//        print(y)
         let alpha = (y + 40)/400.0
         self.changeAplha?(alpha: Float(alpha))
         backView.backgroundColor = self.backColor.colorWithAlphaComponent(alpha)
@@ -341,7 +377,10 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
     }
     
     override func viewDidAppear(animated: Bool) {
-        let con =  self.view.superview!.superview!.superview!.superview!.superview!.superview!.nextResponder()! as!ContainViewController
+        
+        
+        
+        let con =  self.view.superview!.superview!.superview!.superview!.superview!.superview!.nextResponder()! as! ContainViewController
         con.navigationController?.navigationBar.addSubview(backView)
         con.navigationController?.navigationBar.sendSubviewToBack(backView)
         if Width == 320 {
@@ -384,11 +423,40 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
             
         }
         
+//     百分比
+        addPillSubView(String(Int(Float(DataHelper.SharedDataHelper.analyseModel.cheek_oil_shine)! * 100)), label: firstPillLabel, superView: firstPillImgView)
+        addPillSubView(String(Int(Float(DataHelper.SharedDataHelper.analyseModel.Tzone_oil_shine)!  * 100)), label: secondPillLabel, superView: secondPillImgView)
+        addPillSubView(String(Int(Float(DataHelper.SharedDataHelper.analyseModel.chin_oil_shine)! * 100)), label: thirdPillLabel, superView: thirdPillImgView)
+//    动画
         
-      addAnimationForpill(firstPillar, imgView: firstPillImgView, offset: 20)
+        pillAnimayion(firstPillar,viewA:firstPillImgView,offset:  DataHelper.SharedDataHelper.analyseModel.cheek_oil_shine)
+        
+        pillAnimayion(secondPillar,viewA:secondPillImgView ,offset:DataHelper.SharedDataHelper.analyseModel.Tzone_oil_shine)
+        
+        pillAnimayion(thirdPillar,viewA:thirdPillImgView ,offset:  DataHelper.SharedDataHelper.analyseModel.chin_oil_shine)
         
     }
  
+    func pillAnimayion(view:UIView,viewA:UIView,offset:String)  {
+        let pillBGHeight =  secondPillBg.frame.size.height - 10
+        let n =  NSNumberFormatter().numberFromString(offset)
+        let contentoffset = CGFloat(n!)
+        UIView.transitionWithView(view, duration: 2, options: UIViewAnimationOptions.TransitionNone, animations: {
+          
+            view.frame.size.height +=  contentoffset * pillBGHeight
+            view.frame.origin.y -= contentoffset * pillBGHeight
+            
+        }) { (Bool) in
+            
+        }
+        UIView.transitionWithView(viewA, duration: 2, options: UIViewAnimationOptions.TransitionNone, animations: {
+            viewA.frame.origin.y -= contentoffset * pillBGHeight
+        }) { (Bool) in
+            
+        }
+        
+        
+    }
     override func viewWillAppear(animated: Bool) {
         self.navigationController?.navigationBar.hidden = true
         

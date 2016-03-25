@@ -8,7 +8,9 @@
 
 import UIKit
 
+
 class FaceModel: NSObject {
+ 
     
     var face_profile:NSArray?
     var left_eye:NSArray!

@@ -8,6 +8,7 @@
 
 #import "SDPieProgressView.h"
 #import "SDLoopProgressView.h"
+#import "SDJustLoopView.h"
 #import "SDBallProgressView.h"
 #import "SDPieLoopProgressView.h"
 #import "SDTransparentPieProgressView.h"

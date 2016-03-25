@@ -7,6 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		143517EB1CA25D0600A786DA /* SDJustLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 143517EA1CA25D0600A786DA /* SDJustLoopView.m */; };
+		143517ED1CA25E3200A786DA /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143517EC1CA25E3200A786DA /* RecordViewController.swift */; };
+		143517F01CA26AE100A786DA /* TimeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143517EE1CA26AE100A786DA /* TimeViewCell.swift */; };
+		143517F11CA26AE100A786DA /* TimeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 143517EF1CA26AE100A786DA /* TimeViewCell.xib */; };
+		143517FE1CA287F000A786DA /* DateViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143517FC1CA287F000A786DA /* DateViewCell.swift */; };
+		143517FF1CA287F000A786DA /* DateViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 143517FD1CA287F000A786DA /* DateViewCell.xib */; };
+		143518011CA39CF300A786DA /* AnalyseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143518001CA39CF300A786DA /* AnalyseModel.swift */; };
+		143518031CA3B60C00A786DA /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143518021CA3B60C00A786DA /* DataHelper.swift */; };
 		14D9FD421C90131300965F11 /* RKSwipeBetweenViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D9FD411C90131300965F11 /* RKSwipeBetweenViewControllers.m */; };
 		14D9FD461C9014B100965F11 /* TendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D9FD451C9014B100965F11 /* TendViewController.swift */; };
 		14D9FD4A1C901BC300965F11 /* ContainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D9FD491C901BC300965F11 /* ContainViewController.swift */; };
@@ -77,6 +85,15 @@
 
 /* Begin PBXFileReference section */
 		0F213B277F4269A17F95CBA9 /* Pods.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.release.xcconfig; path = "Pods/Target Support Files/Pods/Pods.release.xcconfig"; sourceTree = "<group>"; };
+		143517E91CA25D0600A786DA /* SDJustLoopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDJustLoopView.h; sourceTree = "<group>"; };
+		143517EA1CA25D0600A786DA /* SDJustLoopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDJustLoopView.m; sourceTree = "<group>"; };
+		143517EC1CA25E3200A786DA /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
+		143517EE1CA26AE100A786DA /* TimeViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeViewCell.swift; sourceTree = "<group>"; };
+		143517EF1CA26AE100A786DA /* TimeViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimeViewCell.xib; sourceTree = "<group>"; };
+		143517FC1CA287F000A786DA /* DateViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateViewCell.swift; sourceTree = "<group>"; };
+		143517FD1CA287F000A786DA /* DateViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DateViewCell.xib; sourceTree = "<group>"; };
+		143518001CA39CF300A786DA /* AnalyseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyseModel.swift; sourceTree = "<group>"; };
+		143518021CA3B60C00A786DA /* DataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
 		14D9FD401C90131300965F11 /* RKSwipeBetweenViewControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSwipeBetweenViewControllers.h; sourceTree = "<group>"; };
 		14D9FD411C90131300965F11 /* RKSwipeBetweenViewControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSwipeBetweenViewControllers.m; sourceTree = "<group>"; };
 		14D9FD451C9014B100965F11 /* TendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TendViewController.swift; sourceTree = "<group>"; };
@@ -211,6 +228,8 @@
 		14D9FD7F1C97E0B600965F11 /* loop */ = {
 			isa = PBXGroup;
 			children = (
+				143517E91CA25D0600A786DA /* SDJustLoopView.h */,
+				143517EA1CA25D0600A786DA /* SDJustLoopView.m */,
 				14D9FD801C97E0B600965F11 /* SDBallProgressView.h */,
 				14D9FD811C97E0B600965F11 /* SDBallProgressView.m */,
 				14D9FD821C97E0B600965F11 /* SDBaseProgressView.h */,
@@ -312,6 +331,10 @@
 		14E0CDCE1C8D589200F1362C /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				143517EE1CA26AE100A786DA /* TimeViewCell.swift */,
+				143517EF1CA26AE100A786DA /* TimeViewCell.xib */,
+				143517FC1CA287F000A786DA /* DateViewCell.swift */,
+				143517FD1CA287F000A786DA /* DateViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -320,6 +343,7 @@
 			isa = PBXGroup;
 			children = (
 				14E0CDD01C8D589200F1362C /* DBManager.swift */,
+				143518021CA3B60C00A786DA /* DataHelper.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -335,6 +359,7 @@
 			isa = PBXGroup;
 			children = (
 				14E0CDD31C8D589200F1362C /* FaceModel.swift */,
+				143518001CA39CF300A786DA /* AnalyseModel.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -374,6 +399,7 @@
 				14E0CE691C8D605200F1362C /* ScanViewController.swift */,
 				14E0CE741C8EBD6800F1362C /* StateViewController.swift */,
 				14D9FD451C9014B100965F11 /* TendViewController.swift */,
+				143517EC1CA25E3200A786DA /* RecordViewController.swift */,
 			);
 			path = ViewsConroller;
 			sourceTree = "<group>";
@@ -871,6 +897,8 @@
 				14E0CE4F1C8D589200F1362C /* CalendarSelectedDate.png in Resources */,
 				14E0CE4E1C8D589200F1362C /* CalendarRowBottom@2x.png in Resources */,
 				14E0CE491C8D589200F1362C /* CalendarPreviousMonth.png in Resources */,
+				143517F11CA26AE100A786DA /* TimeViewCell.xib in Resources */,
+				143517FF1CA287F000A786DA /* DateViewCell.xib in Resources */,
 				14E0CE4C1C8D589200F1362C /* CalendarRow@2x.png in Resources */,
 				14E0CE401C8D589200F1362C /* near.wav in Resources */,
 				14E0CE661C8D58B100F1362C /* Main.storyboard in Resources */,
@@ -951,6 +979,8 @@
 			files = (
 				14E0CE751C8EBD6800F1362C /* StateViewController.swift in Sources */,
 				14D9FD4A1C901BC300965F11 /* ContainViewController.swift in Sources */,
+				143517FE1CA287F000A786DA /* DateViewCell.swift in Sources */,
+				143517EB1CA25D0600A786DA /* SDJustLoopView.m in Sources */,
 				14E0CE3B1C8D589200F1362C /* AppDelegate.swift in Sources */,
 				14E0CE531C8D589200F1362C /* CalendarCollectionReusableView.m in Sources */,
 				14E0CE451C8D589200F1362C /* PictureModel.m in Sources */,
@@ -968,13 +998,17 @@
 				14E0CE571C8D589200F1362C /* NoneToDoubleCollectionCell.m in Sources */,
 				14E0CE421C8D589200F1362C /* UIView+CustomFrame.m in Sources */,
 				14D9FD5B1C926AE500965F11 /* UDNavigationController.m in Sources */,
+				143518031CA3B60C00A786DA /* DataHelper.swift in Sources */,
 				14E0CE5D1C8D589200F1362C /* KtCorner.swift in Sources */,
 				14D9FD931C97E0B700965F11 /* SDPieProgressView.m in Sources */,
 				14E0CE3C1C8D589200F1362C /* DBManager.swift in Sources */,
+				143517F01CA26AE100A786DA /* TimeViewCell.swift in Sources */,
 				14D9FD951C97E0B700965F11 /* SDTransparentPieProgressView.m in Sources */,
 				14E0CE441C8D589200F1362C /* RMCalendarLogic.m in Sources */,
 				14E0CE551C8D589200F1362C /* FourCollectionCell.m in Sources */,
 				14E0CE6B1C8D605200F1362C /* CameraViewController.swift in Sources */,
+				143517ED1CA25E3200A786DA /* RecordViewController.swift in Sources */,
+				143518011CA39CF300A786DA /* AnalyseModel.swift in Sources */,
 				14E0CE3D1C8D589200F1362C /* FaceModel.swift in Sources */,
 				14E0CE601C8D589200F1362C /* Conf.m in Sources */,
 				14E0CE631C8D589200F1362C /* NSData+Base64.m in Sources */,
@@ -1097,6 +1131,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = IWantFace/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = C2H4.IWantFace;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1113,6 +1148,7 @@
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				INFOPLIST_FILE = IWantFace/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = C2H4.IWantFace;
 				PRODUCT_NAME = "$(TARGET_NAME)";

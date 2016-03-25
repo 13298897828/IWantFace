@@ -243,7 +243,33 @@ class Visage: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
                 print("face origin x \(faceOriginX), face width \(faceWidth)")
                 //for iphone6P, 600<facewidth<700. for iphone6, 500<facewidth<600
-                if (faceWidth > 700 ) {
+                if (faceWidth > 700 && faceWidth < 850 && UIScreen.mainScreen().bounds.size.width == 414) {
+                    duAudioPlayer.prepareToPlay()
+                    duAudioPlayer.play()
+                    
+                    self.blockss!()
+                    
+                    // MARK: - 闪光灯暂关
+                    //                    do {
+                    //                        try self.captureDevice.setTorchModeOnWithLevel(0.01)
+                    //                    } catch _ {
+                    //                    }
+                    print("eye closed \(closeEyeTimes)")
+                    
+                    if (feature.leftEyeClosed || feature.rightEyeClosed ) {
+                        closeEyeTimes += 1
+                        
+                        if (closeEyeTimes == 1 && !beginToTakePicture && !didTakePicture) {
+                            print("eye closed \(closeEyeTimes)")
+                            self.captureDevice.torchMode = AVCaptureTorchMode.Off
+                            let focusPoint = CGPoint(x: (faceOriginX + faceWidth)/2, y: (faceOriginY + faceHeight)/2)
+                            self.captureImage(focusPoint)
+                            self.beginToTakePicture = true
+                        }
+                    } else {
+                        closeEyeTimes = 0
+                    }
+
  
                     print("too close!")
                     closeEyeTimes = 0

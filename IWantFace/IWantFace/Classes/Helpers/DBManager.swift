@@ -11,10 +11,14 @@ import AVFoundation
 import CoreLocation
 import MJExtension
 import Alamofire
+import SwiftHTTP
 //import LKNetwork
 
 
-class DBManager: NSObject,CLLocationManagerDelegate {
+class DBManager: NSObject {
+    
+    static let Manager = DBManager()
+//    private override init() {}
     let locationManager = CLLocationManager()
     let idfv = UIDevice.currentDevice().identifierForVendor!.UUIDString
     var latitude: String? = nil
@@ -32,20 +36,29 @@ func uploadImage(imageURL: NSURL?){
         "longitude":longitude!,
         "latitude": latitude!,
         "image":UIImage(data: NSData(contentsOfURL: imageURL!)!)!]
-    let uploadURL = "http://119.254.211.15/west/temp_analysis/"
-    LKNetworkTool.POST(uploadURL,
-        params: params){
-            print("result = \($0.result.value)")
-            
-            let result = $0.result.value as? [String: AnyObject]
-            
-//            self.model = BuyRecordModel(dict: result)
-    }
+    let uploadURL = "'http://119.254.211.15/west/upload_analysis/"
+//    LKNetworkTool.POST(uploadURL,
+//        params: params){
+//            print("result = \($0.result.value)")
+//            
+//            let result = $0.result.value as? [String: AnyObject]
+//            
+////            self.model = BuyRecordModel(dict: result)
+//    }
  
     
 //    let task = HTTPTask()
 
-////    let uploadURL = "http://192.168.0.105:8000/west/temp_analysis/"
+//    let fileUrl = NSURL(fileURLWithPath: "/Users/dalton/Desktop/testfile")!
+    do {
+        let opt = try HTTP.POST("http://119.254.211.15/west/upload_analysis/", parameters: params)
+        opt.start { response in
+            print(response)
+        }
+    } catch let error {
+        print("got an error creating the request: \(error)")
+    }
+//    let uploadURL = "http://192.168.0.105:8000/west/temp_analysis/"
 //    task.upload(uploadURL, method: .POST,
 //        parameters: params,
 //        progress: { (value: Double) in

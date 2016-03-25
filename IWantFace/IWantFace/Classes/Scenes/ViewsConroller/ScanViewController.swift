@@ -10,9 +10,15 @@
 import UIKit
 import AFImageHelper
 
-class ScanViewController: UIViewController {
+class ScanViewController: UIViewController,CLLocationManagerDelegate{
+
+//    地点
+    let locationManager = CLLocationManager()
+    var latitude: String?
+    var longitude: String?
+    var timestring:String?
+    
 //  数据模型
- 
     let faceModel = FaceModel()
     let pointView:UIView = UIView()
     var faceProfilePoints = [CGPoint]()
@@ -35,6 +41,7 @@ class ScanViewController: UIViewController {
     var corverViewLeft = UIView()
     var corverViewRight = UIView()
  
+    @IBOutlet weak var backViewForPoint: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -113,21 +120,44 @@ class ScanViewController: UIViewController {
         var linePointRR = [CGPoint]()
         let layerRR = CAShapeLayer()
         
+        
+        
+//       跳转页面
+        DataHelper.SharedDataHelper.result = {
+//        let stateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("StateViewController") as! StateViewController
+            let contentVC = ContainViewController()
+            self.presentViewController(contentVC, animated: true, completion: {
+                 
+            })
+            
+        }
+        
+//        时间地点
+        let date = NSDate()
+        let formatter = NSDateFormatter()
+        formatter.dateFormat = "yyyyMMdd_HHmmss"
+        timestring = formatter.stringFromDate(date)
+        self.locationManager.delegate = self
+        self.locationManager.desiredAccuracy = kCLLocationAccuracyKilometer
+        self.locationManager.requestWhenInUseAuthorization()
+        self.locationManager.startUpdatingLocation()
+        
+
         let auth = Auth.appSign(1000000, userId: nil)
         let sdk:TXQcloudFrSDK = TXQcloudFrSDK.init(name: Conf.instance().appId, authorization: auth)
-//     图片上的各种图
+        //     图片上的各种图
         
- 
+        
         self.view.backgroundColor = UIColor.blackColor()
         cornerImage.frame = CGRectMake(20, 20, imgView.bounds.size.width - 40, imgView.bounds.size.width - 40)
         cornerImage.image = UIImage(named: "focus")
         cornerImage.sizeToFit()
         self.imgView.addSubview(cornerImage)
-//        扫描图片
+        //        扫描图片
         scanImage.image = UIImage(named: "scan")
         self.scanImage.alpha = 0
-
-//      覆盖动画,百分比效果
+        
+        //      覆盖动画,百分比效果
         corverImage = UIView(frame: self.progressImgView.bounds)
         self.progressImgView.bringSubviewToFront(corverImage)
         corverImage.backgroundColor = UIColor.blackColor()
@@ -140,35 +170,33 @@ class ScanViewController: UIViewController {
                 
         }
         // MARK: - 添加观察者
-         changeText.text = "aq"
+        changeText.text = "aq"
         self.changeText.addObserver(self, forKeyPath: "text", options: NSKeyValueObservingOptions.New, context: nil)
-        NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: Selector("funcChangedtoA"), userInfo: nil, repeats: false)
-         NSTimer.scheduledTimerWithTimeInterval(1.6, target: self, selector: Selector("funcChangedtoB"), userInfo: nil, repeats: false)
-         NSTimer.scheduledTimerWithTimeInterval(2.4, target: self, selector: Selector("funcChangedtoC"), userInfo: nil, repeats: false)
-         NSTimer.scheduledTimerWithTimeInterval(3.2, target: self, selector: Selector("funcChangedtoD"), userInfo: nil, repeats: false)
-         NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: Selector("funcChangedtoE"), userInfo: nil, repeats: false)
-         NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: Selector("funcChangedtoF"), userInfo: nil, repeats: false)
- 
-
+        NSTimer.scheduledTimerWithTimeInterval(0.8, target: self, selector: #selector(ScanViewController.funcChangedtoA), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(1.6, target: self, selector: #selector(ScanViewController.funcChangedtoB), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(2.4, target: self, selector: #selector(ScanViewController.funcChangedtoC), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(3.2, target: self, selector: #selector(ScanViewController.funcChangedtoD), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(4.0, target: self, selector: #selector(ScanViewController.funcChangedtoE), userInfo: nil, repeats: false)
+        NSTimer.scheduledTimerWithTimeInterval(5.0, target: self, selector: #selector(ScanViewController.funcChangedtoF), userInfo: nil, repeats: false)
         
-
-//        百分比数字显示
+        
+        
+        
+        //        百分比数字显示
         percentLabel.countFrom(percentLabel.currentValue(), endValue: 100, duration: 5)
-        let width = 302.5 * UIScreen.mainScreen().scale
-        let height = 403.2 * UIScreen.mainScreen().scale
         let imageForShow = UIImage(data:NSData(contentsOfURL: showImageUrl)!)
         let image  = imageForShow?.resize(CGSize(width: (imageForShow?.size.width)! / 5, height: (imageForShow?.size.height)! / 5))
- 
         
         
-        self.imgView.image = imageForShow?.cutImage(imageForShow!, rect: CGRectMake(0, (imageForShow?.size.height)! / 8, (imageForShow?.size.width)!, (imageForShow?.size.height)! / 8 * 6))
-//            imageForShow?.imageRotatedByDegrees(90, flip: false)
- 
+        
+        self.imgView.image = imageForShow?.cutImage(imageForShow!, rect: CGRectMake(0, (imageForShow?.size.height)! / 16 * 3, (imageForShow?.size.width)!, (imageForShow?.size.height)! / 8 * 6))
+        //            imageForShow?.imageRotatedByDegrees(90, flip: false)
+        
         self.imgView.contentMode = UIViewContentMode.ScaleAspectFit
-//        imgView.clipsToBounds = true
+        //        imgView.clipsToBounds = true
         
         
-
+        
         sdk.API_END_POINT = "http://api.youtu.qq.com/youtu"
         sdk.faceShape(image, successBlock: { (let responseObject) -> Void in
             
@@ -180,58 +208,61 @@ class ScanViewController: UIViewController {
                 
             }
             //            接收模型
-            self.faceModel.setValuesForKeysWithDictionary(data["face_shape"]![0]! as! [String : AnyObject])
+            self.faceModel.setValuesForKeysWithDictionary((data["face_shape"] as! NSArray) [0] as! [String : AnyObject])
             //             解析点
             self.getPoints(data)
             UIView.animateWithDuration(1, delay: 0, options: UIViewAnimationOptions.CurveEaseIn, animations: { () -> Void in
                 
                 }, completion: { (Bool) -> Void in
-                
+                    
             })
             
-        // MARK: - 眉毛点
-        for i in 0...7 {
-        
-            self.imgPoints("layerLeftBlowPoint\(i)", point: CGPointMake(self.leftEyeBlowPoints[i].x ,self.leftEyeBlowPoints[i].y))
-            self.imgPoints("layerRightBlowPoint\(i)", point: self.rightEyeBlowPoints[i])
-         
-        }
-        
-        // MARK: - 眼睛点
-        
-        for i in 0...4 {
-            self.imgPoints("layerLeftEyePoint\(i)", point:self.leftEyePoints[i])
-            self.imgPoints("layerRightEyePoint\(i)", point: self.rightEyePoints[i])
-        }
-        
-        //    MARK: - 鼻子点
-        
-        for i in 0...12 {
-            self.imgPoints("nosePoint\(i)", point: self.nosePoints[i])
+            // MARK: - 眉毛点
+            for i in 0...7 {
+                
+                self.leftEyeBlowPoints[i].y -= self.backViewForPoint.frame.size.height / 16 * 3
+                self.rightEyeBlowPoints[i].y -= self.backViewForPoint.frame.size.height / 16 * 3
+                self.imgPoints("layerLeftBlowPoint\(i)", point: CGPointMake(self.leftEyeBlowPoints[i].x ,self.leftEyeBlowPoints[i].y))
+                self.imgPoints("layerRightBlowPoint\(i)", point: self.rightEyeBlowPoints[i])
+                
+            }
             
-        }
-        //           // MARK: -  👄
-        
-        for i in 0...16 {
+            // MARK: - 眼睛点
             
- 
-            self.imgPoints("mouthPoint\(i)", point: self.mouthPoints[i])
-        }
-        
-        //             // MARK: -  轮廓
-        for i in 0...20  {
-            print(self.faceProfilePoints[i].y)
-//             self.faceProfilePoints[i].y *=  8 /
-            print(self.faceProfilePoints[i].y)
-//            self.imgPoints("face\(i)", point:  self.faceProfilePoints[i])
-            self.imgPoints("face\(i)", point:  CGPointMake(self.faceProfilePoints[i].x, self.faceProfilePoints[i].y))
-            //
-        }
+            for i in 0...4 {
+                self.leftEyePoints[i].y -= self.backViewForPoint.frame.size.height / 16 * 3
+                self.rightEyePoints[i].y -= self.backViewForPoint.frame.size.height / 16 * 3
+                self.imgPoints("layerLeftEyePoint\(i)", point:self.leftEyePoints[i])
+                self.imgPoints("layerRightEyePoint\(i)", point: self.rightEyePoints[i])
+            }
             
-     
+            //    MARK: - 鼻子点
+            
+            for i in 0...12 {
+                self.nosePoints[i].y -= self.backViewForPoint.frame.size.height / 16 * 3
+                self.imgPoints("nosePoint\(i)", point: self.nosePoints[i])
+                
+            }
+            //           // MARK: -  👄
+            
+            for i in 0...16 {
+                
+                self.mouthPoints[i].y -= self.backViewForPoint.frame.size.height / 16 * 3
+                self.imgPoints("mouthPoint\(i)", point: self.mouthPoints[i])
+            }
+            
+            //             // MARK: -  轮廓
+            for i in 0...20  {
+                
+                self.faceProfilePoints[i].y -= self.backViewForPoint.frame.size.height / 16 * 3
+                self.imgPoints("face\(i)", point:  CGPointMake(self.faceProfilePoints[i].x, self.faceProfilePoints[i].y))
+                //
+            }
+            
+            
             
             //           MARK: - 左一
- 
+            
             // MARK: -  最上
             linePointAL.append(self.nosePoints[2])
             linePointAL.append(self.leftEyePoints[4])
@@ -289,7 +320,7 @@ class ScanViewController: UIViewController {
             linePointCL.append(self.leftEyePoints[0])
             linePointCL.append(self.leftEyeBlowPoints[0])
             linePointCL.append(self.faceProfilePoints[0])
-        
+            
             for i in 2...10 {
                 
                 linePointCL.append(self.faceProfilePoints[i])
@@ -334,7 +365,7 @@ class ScanViewController: UIViewController {
             //             // MARK: - 第四条-2
             linePointFL.append(self.nosePoints[2])
             for var i = 4 ; i>=0 ;i-- {
-            linePointFL.append(self.leftEyePoints[4])
+                linePointFL.append(self.leftEyePoints[4])
                 linePointFL.append(self.leftEyePoints[i])
             }
             linePointFL.append(CGPointMake((self.leftEyePoints[0].x + self.faceProfilePoints[2].x) / 2, self.faceProfilePoints[1].y))
@@ -556,10 +587,10 @@ class ScanViewController: UIViewController {
             linePointQL.append(self.faceProfilePoints[9])
             self.drawLine(layerQL, startPoint: self.nosePoints[2],linePoints:linePointQL)
             
-            for var i = 12; i > 7;i--  {
+            for var i = 12; i > 7;i -= 1  {
                 linePointQR.append(self.nosePoints[i])
             }
-            for var i = 8; i > 3; i-- {
+            for var i = 8; i > 3; i -= 1 {
                 linePointQR.append(self.mouthPoints[i])
             }
             linePointQR.append(CGPointMake((self.faceProfilePoints[11].x + self.mouthPoints[5].x) / 2, (self.faceProfilePoints[11].y + self.mouthPoints[4].y) / 2))
@@ -590,15 +621,19 @@ class ScanViewController: UIViewController {
             linePointRR.append(CGPointMake((self.faceProfilePoints[9].x + self.mouthPoints[1].x) / 2, (self.faceProfilePoints[9].y + self.mouthPoints[2].y) / 2))
             linePointPL.append(self.faceProfilePoints[8])
             self.drawLine(layerRR, startPoint: self.nosePoints[12],linePoints:linePointRR)
- 
+            
             }) { (let error) -> Void in
-                        print(error)
+                print(error)
         }
-
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         //      扫描效果
+                DataHelper.SharedDataHelper.latitude = latitude
+                DataHelper.SharedDataHelper.longitude = longitude
+                DataHelper.SharedDataHelper.timeString = timestring
+                 DataHelper.SharedDataHelper.uploadImage(showImageUrl)
 
         UIView.transitionWithView(scanImage, duration: 2, options: UIViewAnimationOptions.Repeat, animations: { () -> Void in
             var frameNew = self.scanImage.frame
@@ -623,8 +658,8 @@ class ScanViewController: UIViewController {
         animation.duration = 2
         animation.type = kCATransitionFade
         name.addAnimation(animation, forKey: "")
-        self.imgView.layer.addAnimation(animation, forKey: "")
-        self.imgView.layer.addSublayer(name)
+        self.backViewForPoint.layer.addAnimation(animation, forKey: "")
+        self.backViewForPoint.layer.addSublayer(name)
         
     }
     
@@ -632,19 +667,15 @@ class ScanViewController: UIViewController {
     //      MARK: - 画线及画点方法
     func drawLine(layer:CAShapeLayer,startPoint:CGPoint,linePoints:[CGPoint]) {
         
-        //   添加点的位置
-        //        pointView.frame = CGRectMake(startPoint.x - 5, startPoint.y - 5, 10, 10)
-        //        self.imgView.addSubview(self.pointView)
-        //   画线
-        //        self.pointMuved(startPoint: startPoint,linePoints:linePoints,delay: 0,layer: layer)
-        self.pointMuved(imgView, startPoint: startPoint, linePoints: linePoints, delay: 0, layer: layer)
+  
+        self.pointMuved(backViewForPoint, startPoint: startPoint, linePoints: linePoints, delay: 0, layer: layer)
         
     }
     
     
     
     // MARK: - 点移动
-    func pointMuved(imageView:UIImageView,startPoint:CGPoint,linePoints:[CGPoint],delay:Double,layer:CAShapeLayer) {
+    func pointMuved(imageView:UIView,startPoint:CGPoint,linePoints:[CGPoint],delay:Double,layer:CAShapeLayer) {
         
         //        self.flash(pointView)
         
@@ -710,8 +741,8 @@ class ScanViewController: UIViewController {
     
     func getPoints(data:NSDictionary) {
         //            计算比例
-        let proportionY:CGFloat =  (imgView.frame.size.height) / (data["image_height"]! as! CGFloat)
-        let proportionX:CGFloat =  (imgView.frame.size.width) / (data["image_width"]! as! CGFloat)
+        let proportionY:CGFloat =  (backViewForPoint.frame.size.height) / (data["image_height"]! as! CGFloat)
+        let proportionX:CGFloat =  (backViewForPoint.frame.size.width) / (data["image_width"]! as! CGFloat)
         
         
         for i in 0...7 {
@@ -804,6 +835,22 @@ class ScanViewController: UIViewController {
             }
         }
     }
+    
+    func locationManager(manager: CLLocationManager, didUpdateLocations locations: [CLLocation]){
+        
+        self.latitude = manager.location!.coordinate.latitude.description
+        self.longitude = manager.location!.coordinate.longitude.description
+        //latitide.description
+        self.locationManager.stopUpdatingLocation()
+        print("latitude is \(latitude!) longitude is \(longitude!)")
+    }
+    
+    func locationManager(manager: CLLocationManager, didFailWithError error: NSError){
+        print("Error: " + error.localizedDescription)
+    }
+   
+
+    
     deinit {
         
         self.changeText.removeObserver("text", forKeyPath: "")
@@ -818,10 +865,7 @@ class ScanViewController: UIViewController {
     }
     
     
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
+   
 }
 private extension UIImage {
     func imageRotatedByDegrees(degrees: CGFloat, flip: Bool) -> UIImage {
