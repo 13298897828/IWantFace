@@ -124,9 +124,8 @@ class ScanViewController: UIViewController,CLLocationManagerDelegate{
         
 //       跳转页面
         DataHelper.SharedDataHelper.result = {
-//        let stateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("StateViewController") as! StateViewController
-            let contentVC = ContainViewController()
-            self.presentViewController(contentVC, animated: true, completion: {
+        let stateVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("nav") as! UINavigationController 
+            self.presentViewController(stateVC, animated: true, completion: {
                  
             })
             
@@ -163,12 +162,7 @@ class ScanViewController: UIViewController,CLLocationManagerDelegate{
         corverImage.backgroundColor = UIColor.blackColor()
         corverImage.alpha = 0.5
         self.progressImgView.addSubview(corverImage)
-        UIView.transitionWithView(corverImage, duration: 5, options: UIViewAnimationOptions.ShowHideTransitionViews, animations: { () -> Void in
-            self.corverImage.frame = CGRectMake(self.corverImage.bounds.origin.x + self.corverImage.bounds.size.width - 0.1 , self.corverImage.bounds.origin.y , 0.1, self.corverImage.bounds.height)
-            
-            }) { (Bool) -> Void in
-                
-        }
+        
         // MARK: - 添加观察者
         changeText.text = "aq"
         self.changeText.addObserver(self, forKeyPath: "text", options: NSKeyValueObservingOptions.New, context: nil)
@@ -634,6 +628,13 @@ class ScanViewController: UIViewController,CLLocationManagerDelegate{
                 DataHelper.SharedDataHelper.longitude = longitude
                 DataHelper.SharedDataHelper.timeString = timestring
                  DataHelper.SharedDataHelper.uploadImage(showImageUrl)
+//        百分比
+        UIView.transitionWithView(corverImage, duration: 5, options: UIViewAnimationOptions.ShowHideTransitionViews, animations: { () -> Void in
+            self.corverImage.frame = CGRectMake(self.corverImage.bounds.origin.x + self.corverImage.bounds.size.width - 0.1 , self.corverImage.bounds.origin.y , 0.1, self.corverImage.bounds.height)
+            
+        }) { (Bool) -> Void in
+            
+        }
 
         UIView.transitionWithView(scanImage, duration: 2, options: UIViewAnimationOptions.Repeat, animations: { () -> Void in
             var frameNew = self.scanImage.frame

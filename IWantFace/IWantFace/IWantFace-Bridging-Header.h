@@ -12,4 +12,5 @@
 #import "UDNavigationController.h"
 #import "SDProgressView.h"
 #import <CoreLocation/CoreLocation.h>
+#import "ExifContainer.h"
  

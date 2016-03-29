@@ -104,6 +104,7 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
         setViews()
         addAnimationForCircle()
         addLine()
+        scrolView.tag = 100
     }
     
     // MARK: - 背景设置及代理
@@ -125,6 +126,7 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
         numOfPore.text = analyFace.pore_severity
         eggImgView.image = UIImage(named: analyFace.coarseness)
         smoothDegreeOfSkin.text = analyFace.coarseness
+        faceImgView.image = UIImage(named: analyFace.gender)
         let n =  NSNumberFormatter().numberFromString(analyFace.skin_age)
         let age = CGFloat(n!)
         ageSkinLoop.progress = age / 100
@@ -179,18 +181,18 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
     private func addLine() {
         //      脸颊
         
-        pointForCheekA = CGPointMake(-30, 80)
-        pointForCheekB = CGPointMake(26,80)
-        pointForCheekC = CGPointMake(60, 134)
-        pointForCheekD = CGPointMake(125, 134)
+        pointForCheekA = CGPointMake(-35, 90)
+        pointForCheekB = CGPointMake(26,90)
+        pointForCheekC = CGPointMake(59, 134)
+        pointForCheekD = CGPointMake(127, 134)
         
         //      T区
-        pointForTA =  CGPointMake(faceImgView.frame.size.width / 10 * 9, 80)
-        pointForTB =  CGPointMake(faceImgView.frame.size.width / 10 * 3.36, 80)
+        pointForTA =  CGPointMake(faceImgView.frame.size.width / 10 * 9 - 36, 81)
+        pointForTB =  CGPointMake(faceImgView.frame.size.width / 10 * 3.36, 81)
         
         
         //      下巴
-        pointForChinA = CGPointMake(0,faceImgView.frame.size.height / 5 * 3.1)
+        pointForChinA = CGPointMake(25,faceImgView.frame.size.height / 5 * 3.1)
         pointForChinB = CGPointMake(faceImgView.frame.size.width / 2.83, faceImgView.frame.size.height / 5 * 3.1)
         
         if Width == 375 {
@@ -318,7 +320,7 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
         //        分享文字
         var text = String()
        
-        text = "你的肌肤光滑度超过了全国81%的女生,哈哈,骗你的啦这你都信"
+        text = "你的肌肤光滑度超过了全国81%的女生"
         let text3 = NSMutableAttributedString(string: text)
         //        改颜色
         let needle: Character = "%"
@@ -340,29 +342,35 @@ class StateViewController: UIViewController,UIScrollViewDelegate,UIPageViewContr
     }
     
      func scrollViewDidScroll(scrollView: UIScrollView) {
-        
-        let y:CGFloat = scrollView.contentOffset.y
-//        print(y)
-        let alpha = (y + 40)/400.0
-        self.changeAplha?(alpha: Float(alpha))
-        backView.backgroundColor = self.backColor.colorWithAlphaComponent(alpha)
-        if y < 100 {
-            var frame:CGRect = topImgView.frame
-            frame.origin.y = y
-            frame.size.height = -y * 1.03
-            topImgView.frame = frame
-            topImgView.contentMode = UIViewContentMode.ScaleAspectFill
+        if scrollView.tag == 100 {
+            
+            let y:CGFloat = scrollView.contentOffset.y
+            //        print(y)
+            let alpha = (y + 40)/400.0
+            self.changeAplha?(alpha: Float(alpha))
+            backView.backgroundColor = self.backColor.colorWithAlphaComponent(alpha)
+            if y < 100 {
+                var frame:CGRect = topImgView.frame
+                frame.origin.y = y
+                frame.size.height = -y * 1.03
+                topImgView.frame = frame
+                topImgView.contentMode = UIViewContentMode.ScaleAspectFill
+                if y == 10{
+                    
+                    self.shareTopImg = getImage()
+                    
+                }
+                if y == 273 {
+                    
+                }
+                
+            }
             
         }
         
-        if y == 10{
-            
-            self.shareTopImg = getImage()
-            
-        }
-        if y == 273 {
-            
-        }
+        
+        
+       
     }
     //  // MARK: - pageControl
      func scrollViewDidEndDecelerating(scrollView: UIScrollView) {

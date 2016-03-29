@@ -17,6 +17,8 @@ class Visage: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     let idfv = UIDevice.currentDevice().identifierForVendor!.UUIDString
     var timeString: String? = nil
+    var exif = AnyObject!()
+    var ImgData = NSData!()
     var timer: NSTimer = NSTimer()
     let cameraVC = UIStoryboard(name: "Main", bundle: nil).instantiateViewControllerWithIdentifier("CameraViewController") as! CameraViewController
     var blockss: blockALpha?
@@ -368,13 +370,46 @@ class Visage: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         
         if let videoConnection = stillImageOutput!.connectionWithMediaType(AVMediaTypeVideo) {
             videoConnection.videoOrientation = AVCaptureVideoOrientation.Portrait
-            stillImageOutput?.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: {(sampleBuffer, error) in
+            
+        stillImageOutput?.captureStillImageAsynchronouslyFromConnection(videoConnection, completionHandler: {(sampleBuffer, error) in
                 if (sampleBuffer != nil) {
                     self.endFaceDetection()
+                    
+                    self.exif = CMGetAttachment(sampleBuffer, kCGImagePropertyExifDictionary, nil)
+    
+//                   CMSetAttachment(sampleBuffer, "kCGImagePropertyOrientation", 6, CMAttachmentMode(1))
+                    
                     let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
                     self.saveToFileSystem(imageData)
+//                    print(self.exif)
+//                    print(CMGetAttachment(sampleBuffer, kCGImagePropertyExifDictionary, nil))
+//                    let image = UIImage(data: imageData)
+//                    
+//                    print(image)
+//                    let  metaDict = CMCopyDictionaryOfAttachments(nil, sampleBuffer, kCMAttachmentMode_ShouldPropagate)
+//                    
+//                    let dict = ["kCGImagePropertyOrientation":"6"]
+//                    
+//                    CMSetAttachment(sampleBuffer, kCGImagePropertyOrientation, dict,kCMAttachmentMode_ShouldPropagate)
+//                    let newMetaData = CMCopyDictionaryOfAttachments(nil, sampleBuffer, kCMAttachmentMode_ShouldPropagate)
+//                    
+//                    let imageData = AVCaptureStillImageOutput.jpegStillImageNSDataRepresentation(sampleBuffer)
+//                    let image = UIImage(data: imageData)
+//                    let library = ALAssetsLibrary()
+//                    let newDict = newMetaData
+//                    
+//                    let source = CGImageSourceCreateWithData(imageData, nil)
+//                    let CFData = NSMutableData()
+//                    let uti = CGImageSourceGetType(source!)
+//                    let destination = CGImageDestinationCreateWithData(CFData, uti!, 0, nil)
+//                    
+////                 CGImageDestinationAddImageAndMetadata(destination!, (image?.CGImage)!, <#T##metadata: CGImageMetadata?##CGImageMetadata?#>, metaDict)
+//                  let imageNew =  CGImageDestinationAddImage(destination!, (image?.CGImage)!, metaDict!)
+//             
+//                    print(imageNew)
                     
-                    //self.saveToPhotoLibrary(imageData)
+            
+                     
                     self.didTakePicture = true
                     do {
                         try self.captureDevice.lockForConfiguration()
@@ -389,21 +424,25 @@ class Visage: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
         }
     }
     
+    
     func saveToFileSystem(imageData: NSData) {
         
         let dataProvider = CGDataProviderCreateWithCFData(imageData)
         let cgImageRef = CGImageCreateWithJPEGDataProvider(dataProvider, nil, true, CGColorRenderingIntent.RenderingIntentDefault)
+       
         
         let takenImage = UIImage(CGImage: cgImageRef!, scale: 1.0, orientation: UIImageOrientation.Up)
         let rotatedImage = takenImage.imageRotatedByDegrees(90, flip: false)
         let date = NSDate()
+        
+
         let formatter = NSDateFormatter()
         formatter.dateFormat = "yyyyMMdd_HHmmss"
         timeString = formatter.stringFromDate(date)
         print("now time is \(timeString!)")
         
         if let imageData = UIImageJPEGRepresentation(rotatedImage, 0.2){
-            print("kb of image is \(imageData.length/1024)")
+           
             let fileManager = NSFileManager()
             if let docsDir = fileManager.URLsForDirectory(.DocumentDirectory, inDomains: .UserDomainMask).first {
                 let url = docsDir.URLByAppendingPathComponent("IMG_\(idfv)_\(timeString!).jpg")
@@ -434,6 +473,29 @@ class Visage: NSObject, AVCaptureVideoDataOutputSampleBufferDelegate {
 
     }
 
+    func saveImageWithExif(data:NSData,dic:NSDictionary) -> NSData{
+        
+        let dict = NSMutableDictionary.init(dictionary: dic)
+        dict["\(CGImagePropertyOrientation.self)"] = 3
+        let imageRef = CGImageSourceCreateWithData(data, nil)
+        let uti = CGImageSourceGetType(imageRef!)
+        let dateNew = NSMutableData()
+        let destination = CGImageDestinationCreateWithData(dateNew, uti!, 1, nil)
+//        if (destination == nil) {
+//            print("error,no exif")
+            return dateNew
+//        }
+//        CGImageDestinationAddImageFromSource(destination!, imageRef!, 0, dict)
+//      
+//        let check = CGImageDestinationFinalize(destination!)
+//        if (check == false) {
+//            print("error")
+//            return dateNew
+//        }
+//        
+//        return dateNew
+        
+    }
     
     //TODO: 🚧 HELPER TO CONVERT BETWEEN UIDEVICEORIENTATION AND CIDETECTORORIENTATION 🚧
     private func convertOrientation(deviceOrientation: UIDeviceOrientation) -> Int {

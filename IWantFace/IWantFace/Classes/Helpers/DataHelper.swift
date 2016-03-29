@@ -26,6 +26,7 @@ class DataHelper: NSObject {
     private var url: NSURL?
     private var timer: NSTimer = NSTimer()
     private var startWaiting = false
+    var exif = AnyObject!()
 //
     var result: Result!         // 用于回调的闭包
     

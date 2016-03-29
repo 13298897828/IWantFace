@@ -10,30 +10,41 @@ import UIKit
 
 private let reuseIdentifier = "timeCell"
 private let reuseDateIdentifier = "dateCell"
-class RecordViewController: UIViewController,UICollectionViewDelegate,UICollectionViewDataSource {
+class RecordViewController: UIViewController,UITableViewDelegate,UITableViewDataSource{
     let Width = UIScreen.mainScreen().bounds.size.width
     var cellWitdh = CGFloat()
     @IBOutlet weak var bigLoop: SDJustLoopView!
     @IBOutlet weak var middleLoop: SDJustLoopView!
     @IBOutlet weak var smallLoop: SDJustLoopView!
     
-//  timeCollcetionView
-    @IBOutlet weak var timeCollectionView: UICollectionView!
+
+ 
 //  dateCollectionView
-    @IBOutlet weak var dateCollectionView: UICollectionView!
+    @IBOutlet weak var dateTableView: UITableView!
+//  timeCollcetionView
+    @IBOutlet weak var timeTableView: UITableView!
+
+    @IBOutlet weak var containBG: UIView!
+    
     @IBOutlet weak var buttomLine: UIView!
     @IBOutlet weak var buttomImg: UIImageView!
     @IBOutlet weak var buttomBackImgView: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         addLoop()
-        self.timeCollectionView.registerNib(UINib.init(nibName: "TimeViewCell", bundle: nil), forCellWithReuseIdentifier: reuseIdentifier)
-        self.timeCollectionView.tag = 100
-        self.dateCollectionView.registerNib(UINib.init(nibName: "DateViewCell", bundle: nil), forCellWithReuseIdentifier: reuseDateIdentifier)
-        self.dateCollectionView.tag = 200
-        dateCollectionView.allowsSelection = false
-        dateCollectionView.allowsMultipleSelection = false
 
+        timeTableView.registerNib(UINib.init(nibName: "TimeTableViewCell", bundle: nil), forCellReuseIdentifier: "timeCell")
+        timeTableView.tag = 100
+        dateTableView.registerNib(UINib.init(nibName: "DateTableViewCell", bundle: nil), forCellReuseIdentifier: "dateCell")
+        dateTableView.tag = 200
+        timeTableView.separatorColor = UIColor.clearColor()
+        timeTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+        dateTableView.separatorColor = UIColor.clearColor()
+        dateTableView.separatorStyle = UITableViewCellSeparatorStyle.SingleLine
+        timeTableView.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI) / 2)
+        dateTableView.transform = CGAffineTransformMakeRotation(CGFloat(-M_PI) / 2)
+        timeTableView.allowsSelection = false
+        dateTableView.allowsSelection = false
      
     }
 // MARK: - 添加三个环
@@ -55,80 +66,90 @@ class RecordViewController: UIViewController,UICollectionViewDelegate,UICollecti
         smallLoop.blueNum = 175
         smallLoop.lineWidth = 4.1
         smallLoop.progress = 0.9
+         
 
+    }
+    
+    func scrollViewDidScroll(scrollView: UIScrollView) {
         
+        if scrollView.tag == 100 {
+            timeTableView.selectRowAtIndexPath(NSIndexPath(forRow: Int(timeTableView.contentOffset.y / 60),inSection: 0), animated: true, scrollPosition: UITableViewScrollPosition.Top)
+            tableView(timeTableView, didSelectRowAtIndexPath: NSIndexPath(forRow: Int(timeTableView.contentOffset.y / 60),inSection: 0))
+            print(Int(timeTableView.contentOffset.y / 60))
+            
+        }
+        
+        if scrollView.tag == 200{
+        dateTableView.selectRowAtIndexPath(NSIndexPath(forRow:Int(dateTableView.contentOffset.y /  UIScreen.mainScreen().bounds.size.width * 5.96 + 3) , inSection: 0), animated: true,scrollPosition: UITableViewScrollPosition.Middle)
+        tableView(dateTableView, didSelectRowAtIndexPath: NSIndexPath(forRow:Int(dateTableView.contentOffset.y /  UIScreen.mainScreen().bounds.size.width * 5.96 + 3) , inSection: 0))
+ 
+ 
+          let index1 = NSIndexPath(forRow:Int(dateTableView.contentOffset.y /  UIScreen.mainScreen().bounds.size.width * 5.96 + 4) , inSection: 0)
+            let cell = dateTableView.cellForRowAtIndexPath(index1) as! DateTableViewCell
+            cell.selected = false
+            cell.buttonImgView.image = UIImage(named: "circle-gray")
+            let index2 = NSIndexPath(forRow:Int(dateTableView.contentOffset.y /  UIScreen.mainScreen().bounds.size.width * 5.96 + 2) , inSection: 0)
+            let cell1 = dateTableView.cellForRowAtIndexPath(index2) as! DateTableViewCell
+            cell1.selected = false
+            cell1.buttonImgView.image = UIImage(named: "circle-gray")
+            }
         
     }
     override func viewDidAppear(animated: Bool) {
-        if UIScreen.mainScreen().bounds.size.width == 414 {
-         UIView.transitionWithView(self.dateCollectionView, duration: 0.01, options: UIViewAnimationOptions.TransitionNone, animations: {
-                self.dateCollectionView.frame.origin.y += 20
-                self.buttomImg.frame.origin.y += 40
-                self.buttomLine.frame.size.height += 20
-                self.buttomLine.frame.origin.y += 20
-            }, completion: { (Bool) in
-         })
-        }
+//        if UIScreen.mainScreen().bounds.size.width == 414 {
+//         UIView.transitionWithView(self.dateCollectionView, duration: 0.01, options: UIViewAnimationOptions.TransitionNone, animations: {
+//                self.dateCollectionView.frame.origin.y += 20
+//                self.buttomImg.frame.origin.y += 40
+//                self.buttomLine.frame.size.height += 20
+//                self.buttomLine.frame.origin.y += 20
+//            }, completion: { (Bool) in
+//         })
+//        }
+//    }
     }
 }
 extension RecordViewController {
     
-// MARK: - 添加时间collectionView
-    func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
+    func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         return 1
     }
-    
-    func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        
-        if  collectionView.tag == 100 {
-            
-              return 15
-        }else {
-            
-            return 19
-        }
-       
+    func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 21
     }
-    
-    func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        
-        if collectionView.tag == 100 {
-            let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath)
-           
-           
+    func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
+        if tableView.tag == 100 {
+            let cell = tableView.dequeueReusableCellWithIdentifier("timeCell", forIndexPath: indexPath) as! TimeTableViewCell
+            cell.contentView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI) / 2)
+//            cell.timeLabel.text = "lalalla"
             return cell
-        }
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseDateIdentifier, forIndexPath: indexPath) as! DateViewCell
-      
-            cellWitdh = cell.frame.size.width
-    
-        return cell
-       
-    }
-    
-    func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        if collectionView.tag == 200{
-            let cell = collectionView.cellForItemAtIndexPath(indexPath) as! DateViewCell
-            cell.imgView.image = UIImage(named: "circle-orange")
-        }else if collectionView.tag == 100{
             
         }
         
+        let cell = tableView.dequeueReusableCellWithIdentifier("dateCell", forIndexPath: indexPath)  
+        cell.contentView.transform = CGAffineTransformMakeRotation(CGFloat(M_PI) / 2)
+        cell.backgroundColor = UIColor.clearColor()
+        return cell
+        
+    }
+    func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        if tableView.tag == 200{
+            let cell = tableView.cellForRowAtIndexPath(indexPath) as! DateTableViewCell
+            cell.buttonImgView.image = UIImage(named: "circle-orange")
+            cell.selectedBackgroundView = {
+            return UIView()
+            }()
+        }
+        
+   
+        
     }
     
-    func scrollViewDidScroll(scrollView: UIScrollView) {
-        let index = NSIndexPath(forItem:Int(dateCollectionView.contentOffset.x / cellWitdh + 3), inSection: 0)
-        collectionView(dateCollectionView, didSelectItemAtIndexPath: index)
-        self.dateCollectionView.selectItemAtIndexPath(index, animated: true, scrollPosition: UICollectionViewScrollPosition.CenteredHorizontally)
-        let index1 = NSIndexPath(forItem:Int(dateCollectionView.contentOffset.x / cellWitdh + 4), inSection: 0)
-        let cell = dateCollectionView.cellForItemAtIndexPath(index1) as! DateViewCell
-        cell.selected = false
-        cell.imgView.image = UIImage(named: "circle-gray")
-        let index2 = NSIndexPath(forItem:Int(dateCollectionView.contentOffset.x / cellWitdh + 2), inSection: 0)
-        let cell1 = dateCollectionView.cellForItemAtIndexPath(index2) as! DateViewCell
-        cell1.imgView.image = UIImage(named: "circle-gray")
-        cell1.selected = false
+    func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+       
+        if tableView.tag == 200 {
+            return UIScreen.mainScreen().bounds.size.width / 6
+            
+        }
+         return 80
     }
-    
-
 }

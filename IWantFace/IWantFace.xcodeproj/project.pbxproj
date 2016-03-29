@@ -9,12 +9,15 @@
 /* Begin PBXBuildFile section */
 		143517EB1CA25D0600A786DA /* SDJustLoopView.m in Sources */ = {isa = PBXBuildFile; fileRef = 143517EA1CA25D0600A786DA /* SDJustLoopView.m */; };
 		143517ED1CA25E3200A786DA /* RecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143517EC1CA25E3200A786DA /* RecordViewController.swift */; };
-		143517F01CA26AE100A786DA /* TimeViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143517EE1CA26AE100A786DA /* TimeViewCell.swift */; };
-		143517F11CA26AE100A786DA /* TimeViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 143517EF1CA26AE100A786DA /* TimeViewCell.xib */; };
-		143517FE1CA287F000A786DA /* DateViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143517FC1CA287F000A786DA /* DateViewCell.swift */; };
-		143517FF1CA287F000A786DA /* DateViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 143517FD1CA287F000A786DA /* DateViewCell.xib */; };
 		143518011CA39CF300A786DA /* AnalyseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143518001CA39CF300A786DA /* AnalyseModel.swift */; };
 		143518031CA3B60C00A786DA /* DataHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143518021CA3B60C00A786DA /* DataHelper.swift */; };
+		143DF5941CA90E3300F46564 /* ExifContainer.m in Sources */ = {isa = PBXBuildFile; fileRef = 143DF5911CA90E3300F46564 /* ExifContainer.m */; };
+		143DF5951CA90E3300F46564 /* UIImage+Exif.m in Sources */ = {isa = PBXBuildFile; fileRef = 143DF5931CA90E3300F46564 /* UIImage+Exif.m */; };
+		143DF59E1CA92B2800F46564 /* UIImage+fixOrientation.m in Sources */ = {isa = PBXBuildFile; fileRef = 143DF59D1CA92B2800F46564 /* UIImage+fixOrientation.m */; };
+		143DF5A11CAA603100F46564 /* TimeTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143DF59F1CAA603100F46564 /* TimeTableViewCell.swift */; };
+		143DF5A21CAA603100F46564 /* TimeTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 143DF5A01CAA603100F46564 /* TimeTableViewCell.xib */; };
+		143DF5AF1CAA67FA00F46564 /* DateTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 143DF5AD1CAA67FA00F46564 /* DateTableViewCell.swift */; };
+		143DF5B01CAA67FA00F46564 /* DateTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 143DF5AE1CAA67FA00F46564 /* DateTableViewCell.xib */; };
 		14D9FD421C90131300965F11 /* RKSwipeBetweenViewControllers.m in Sources */ = {isa = PBXBuildFile; fileRef = 14D9FD411C90131300965F11 /* RKSwipeBetweenViewControllers.m */; };
 		14D9FD461C9014B100965F11 /* TendViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D9FD451C9014B100965F11 /* TendViewController.swift */; };
 		14D9FD4A1C901BC300965F11 /* ContainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14D9FD491C901BC300965F11 /* ContainViewController.swift */; };
@@ -88,12 +91,18 @@
 		143517E91CA25D0600A786DA /* SDJustLoopView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SDJustLoopView.h; sourceTree = "<group>"; };
 		143517EA1CA25D0600A786DA /* SDJustLoopView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SDJustLoopView.m; sourceTree = "<group>"; };
 		143517EC1CA25E3200A786DA /* RecordViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RecordViewController.swift; sourceTree = "<group>"; };
-		143517EE1CA26AE100A786DA /* TimeViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeViewCell.swift; sourceTree = "<group>"; };
-		143517EF1CA26AE100A786DA /* TimeViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimeViewCell.xib; sourceTree = "<group>"; };
-		143517FC1CA287F000A786DA /* DateViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateViewCell.swift; sourceTree = "<group>"; };
-		143517FD1CA287F000A786DA /* DateViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DateViewCell.xib; sourceTree = "<group>"; };
 		143518001CA39CF300A786DA /* AnalyseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AnalyseModel.swift; sourceTree = "<group>"; };
 		143518021CA3B60C00A786DA /* DataHelper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DataHelper.swift; sourceTree = "<group>"; };
+		143DF5901CA90E3300F46564 /* ExifContainer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ExifContainer.h; sourceTree = "<group>"; };
+		143DF5911CA90E3300F46564 /* ExifContainer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ExifContainer.m; sourceTree = "<group>"; };
+		143DF5921CA90E3300F46564 /* UIImage+Exif.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+Exif.h"; sourceTree = "<group>"; };
+		143DF5931CA90E3300F46564 /* UIImage+Exif.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+Exif.m"; sourceTree = "<group>"; };
+		143DF59C1CA92B2800F46564 /* UIImage+fixOrientation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIImage+fixOrientation.h"; sourceTree = "<group>"; };
+		143DF59D1CA92B2800F46564 /* UIImage+fixOrientation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIImage+fixOrientation.m"; sourceTree = "<group>"; };
+		143DF59F1CAA603100F46564 /* TimeTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TimeTableViewCell.swift; sourceTree = "<group>"; };
+		143DF5A01CAA603100F46564 /* TimeTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = TimeTableViewCell.xib; sourceTree = "<group>"; };
+		143DF5AD1CAA67FA00F46564 /* DateTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateTableViewCell.swift; sourceTree = "<group>"; };
+		143DF5AE1CAA67FA00F46564 /* DateTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DateTableViewCell.xib; sourceTree = "<group>"; };
 		14D9FD401C90131300965F11 /* RKSwipeBetweenViewControllers.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RKSwipeBetweenViewControllers.h; sourceTree = "<group>"; };
 		14D9FD411C90131300965F11 /* RKSwipeBetweenViewControllers.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RKSwipeBetweenViewControllers.m; sourceTree = "<group>"; };
 		14D9FD451C9014B100965F11 /* TendViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TendViewController.swift; sourceTree = "<group>"; };
@@ -206,6 +215,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		143DF58F1CA90E3300F46564 /* exif */ = {
+			isa = PBXGroup;
+			children = (
+				143DF5901CA90E3300F46564 /* ExifContainer.h */,
+				143DF5911CA90E3300F46564 /* ExifContainer.m */,
+				143DF5921CA90E3300F46564 /* UIImage+Exif.h */,
+				143DF5931CA90E3300F46564 /* UIImage+Exif.m */,
+			);
+			path = exif;
+			sourceTree = "<group>";
+		};
 		14D9FD4D1C9027E400965F11 /* FlipTableView */ = {
 			isa = PBXGroup;
 			children = (
@@ -331,10 +351,10 @@
 		14E0CDCE1C8D589200F1362C /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				143517EE1CA26AE100A786DA /* TimeViewCell.swift */,
-				143517EF1CA26AE100A786DA /* TimeViewCell.xib */,
-				143517FC1CA287F000A786DA /* DateViewCell.swift */,
-				143517FD1CA287F000A786DA /* DateViewCell.xib */,
+				143DF59F1CAA603100F46564 /* TimeTableViewCell.swift */,
+				143DF5A01CAA603100F46564 /* TimeTableViewCell.xib */,
+				143DF5AD1CAA67FA00F46564 /* DateTableViewCell.swift */,
+				143DF5AE1CAA67FA00F46564 /* DateTableViewCell.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -407,6 +427,7 @@
 		14E0CDDB1C8D589200F1362C /* Vendors */ = {
 			isa = PBXGroup;
 			children = (
+				143DF58F1CA90E3300F46564 /* exif */,
 				14D9FD7F1C97E0B600965F11 /* loop */,
 				14D9FD591C926AE500965F11 /* UDNavigationController.h */,
 				14D9FD5A1C926AE500965F11 /* UDNavigationController.m */,
@@ -804,6 +825,8 @@
 			isa = PBXGroup;
 			children = (
 				14E0CE3A1C8D589200F1362C /* Resources */,
+				143DF59C1CA92B2800F46564 /* UIImage+fixOrientation.h */,
+				143DF59D1CA92B2800F46564 /* UIImage+fixOrientation.m */,
 			);
 			path = WeChatSharing;
 			sourceTree = "<group>";
@@ -897,8 +920,6 @@
 				14E0CE4F1C8D589200F1362C /* CalendarSelectedDate.png in Resources */,
 				14E0CE4E1C8D589200F1362C /* CalendarRowBottom@2x.png in Resources */,
 				14E0CE491C8D589200F1362C /* CalendarPreviousMonth.png in Resources */,
-				143517F11CA26AE100A786DA /* TimeViewCell.xib in Resources */,
-				143517FF1CA287F000A786DA /* DateViewCell.xib in Resources */,
 				14E0CE4C1C8D589200F1362C /* CalendarRow@2x.png in Resources */,
 				14E0CE401C8D589200F1362C /* near.wav in Resources */,
 				14E0CE661C8D58B100F1362C /* Main.storyboard in Resources */,
@@ -912,9 +933,11 @@
 				14E0CE481C8D589200F1362C /* CalendarNormalDate.png in Resources */,
 				14E0CE4D1C8D589200F1362C /* CalendarRowBottom.png in Resources */,
 				14E0CE501C8D589200F1362C /* CalendarSelectedDate@2x.png in Resources */,
+				143DF5A21CAA603100F46564 /* TimeTableViewCell.xib in Resources */,
 				14E0CE4B1C8D589200F1362C /* CalendarRow.png in Resources */,
 				14E0CDBA1C8D580300F1362C /* Assets.xcassets in Resources */,
 				14E0CE5C1C8D589200F1362C /* ThreeCollectionCell.xib in Resources */,
+				143DF5B01CAA67FA00F46564 /* DateTableViewCell.xib in Resources */,
 				14E0CE561C8D589200F1362C /* FourCollectionCell.xib in Resources */,
 				14E0CE3E1C8D589200F1362C /* dudu.wav in Resources */,
 				14E0CE3F1C8D589200F1362C /* far.wav in Resources */,
@@ -979,7 +1002,7 @@
 			files = (
 				14E0CE751C8EBD6800F1362C /* StateViewController.swift in Sources */,
 				14D9FD4A1C901BC300965F11 /* ContainViewController.swift in Sources */,
-				143517FE1CA287F000A786DA /* DateViewCell.swift in Sources */,
+				143DF59E1CA92B2800F46564 /* UIImage+fixOrientation.m in Sources */,
 				143517EB1CA25D0600A786DA /* SDJustLoopView.m in Sources */,
 				14E0CE3B1C8D589200F1362C /* AppDelegate.swift in Sources */,
 				14E0CE531C8D589200F1362C /* CalendarCollectionReusableView.m in Sources */,
@@ -1002,16 +1025,17 @@
 				14E0CE5D1C8D589200F1362C /* KtCorner.swift in Sources */,
 				14D9FD931C97E0B700965F11 /* SDPieProgressView.m in Sources */,
 				14E0CE3C1C8D589200F1362C /* DBManager.swift in Sources */,
-				143517F01CA26AE100A786DA /* TimeViewCell.swift in Sources */,
 				14D9FD951C97E0B700965F11 /* SDTransparentPieProgressView.m in Sources */,
 				14E0CE441C8D589200F1362C /* RMCalendarLogic.m in Sources */,
 				14E0CE551C8D589200F1362C /* FourCollectionCell.m in Sources */,
 				14E0CE6B1C8D605200F1362C /* CameraViewController.swift in Sources */,
 				143517ED1CA25E3200A786DA /* RecordViewController.swift in Sources */,
 				143518011CA39CF300A786DA /* AnalyseModel.swift in Sources */,
+				143DF5941CA90E3300F46564 /* ExifContainer.m in Sources */,
 				14E0CE3D1C8D589200F1362C /* FaceModel.swift in Sources */,
 				14E0CE601C8D589200F1362C /* Conf.m in Sources */,
 				14E0CE631C8D589200F1362C /* NSData+Base64.m in Sources */,
+				143DF5AF1CAA67FA00F46564 /* DateTableViewCell.swift in Sources */,
 				14E0CDB81C8D580300F1362C /* IWantFace.xcdatamodeld in Sources */,
 				14E0CE411C8D589200F1362C /* NSDate+RMCalendarLogic.m in Sources */,
 				14D9FD911C97E0B700965F11 /* SDLoopProgressView.m in Sources */,
@@ -1021,8 +1045,10 @@
 				14D9FD901C97E0B700965F11 /* SDBaseProgressView.m in Sources */,
 				14E0CE5A1C8D589200F1362C /* RMCalendarMonthHeaderView.m in Sources */,
 				14D9FD541C9027EC00965F11 /* SegmentTapView.m in Sources */,
+				143DF5A11CAA603100F46564 /* TimeTableViewCell.swift in Sources */,
 				14D9FD461C9014B100965F11 /* TendViewController.swift in Sources */,
 				14E0CE711C8D72B000F1362C /* TQImageHelp.swift in Sources */,
+				143DF5951CA90E3300F46564 /* UIImage+Exif.m in Sources */,
 				14E0CE6C1C8D605200F1362C /* ScanViewController.swift in Sources */,
 				14D9FD921C97E0B700965F11 /* SDPieLoopProgressView.m in Sources */,
 			);
