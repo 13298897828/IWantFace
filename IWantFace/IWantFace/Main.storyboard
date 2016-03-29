@@ -65,8 +65,8 @@
                                     </label>
                                 </subviews>
                             </stackView>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="36C28BB9-958E-49BF-B76C-4CF7DE3D3FB8" translatesAutoresizingMaskIntoConstraints="NO" id="XWa-eb-nM1" userLabel="scanView">
-                                <rect key="frame" x="132" y="180" width="336" height="189"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="120576E6-43B2-4452-8ABE-7FB0471D3F1B" translatesAutoresizingMaskIntoConstraints="NO" id="XWa-eb-nM1" userLabel="scanView">
+                                <rect key="frame" x="100" y="170" width="400" height="189"/>
                             </imageView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5iI-YE-1Wh">
                                 <rect key="frame" x="100" y="159" width="400" height="300"/>
@@ -77,14 +77,14 @@
                         <constraints>
                             <constraint firstItem="hAX-aJ-HBV" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="1er-3h-XJc"/>
                             <constraint firstItem="euF-R3-NkO" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="4iv-R8-3Rb"/>
-                            <constraint firstItem="XWa-eb-nM1" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="160" id="DzU-tb-cTb"/>
+                            <constraint firstItem="XWa-eb-nM1" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="150" id="DzU-tb-cTb"/>
                             <constraint firstItem="5iI-YE-1Wh" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="F0Q-ps-jka"/>
                             <constraint firstItem="hAX-aJ-HBV" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="139" id="GeI-Et-1NJ"/>
                             <constraint firstItem="hAX-aJ-HBV" firstAttribute="height" secondItem="8bC-Xf-vdC" secondAttribute="height" multiplier="250:667" id="KgK-qt-Mxz"/>
                             <constraint firstItem="5iI-YE-1Wh" firstAttribute="height" secondItem="hAX-aJ-HBV" secondAttribute="height" multiplier="4:3" id="MeX-HV-Ic0"/>
                             <constraint firstItem="5iI-YE-1Wh" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" constant="139" id="Q5i-nn-nj6"/>
                             <constraint firstItem="XWa-eb-nM1" firstAttribute="leading" secondItem="hAX-aJ-HBV" secondAttribute="trailing" constant="-179" id="QaC-9o-i7B"/>
-                            <constraint firstItem="XWa-eb-nM1" firstAttribute="width" secondItem="hAX-aJ-HBV" secondAttribute="width" multiplier="210:250" id="ThI-Bv-0jg"/>
+                            <constraint firstItem="XWa-eb-nM1" firstAttribute="width" secondItem="hAX-aJ-HBV" secondAttribute="width" id="ThI-Bv-0jg"/>
                             <constraint firstItem="nkU-1P-xZH" firstAttribute="top" secondItem="hAX-aJ-HBV" secondAttribute="bottom" constant="110" id="U2f-io-WBv"/>
                             <constraint firstItem="nkU-1P-xZH" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Wjw-kz-d6v"/>
                             <constraint firstItem="5iI-YE-1Wh" firstAttribute="width" secondItem="hAX-aJ-HBV" secondAttribute="width" id="bCA-LL-dOR"/>
@@ -1526,7 +1526,7 @@
         </scene>
     </scenes>
     <resources>
-        <image name="36C28BB9-958E-49BF-B76C-4CF7DE3D3FB8" width="210" height="210">
+        <image name="120576E6-43B2-4452-8ABE-7FB0471D3F1B" width="210" height="210">
             <mutableData key="keyedArchiveRepresentation">
 YnBsaXN0MDDUAQIDBAUGPT5YJHZlcnNpb25YJG9iamVjdHNZJGFyY2hpdmVyVCR0b3ASAAGGoK4HCBMU
 GR4fIyQrLjE3OlUkbnVsbNUJCgsMDQ4PEBESVk5TU2l6ZVYkY2xhc3NcTlNJbWFnZUZsYWdzVk5TUmVw
